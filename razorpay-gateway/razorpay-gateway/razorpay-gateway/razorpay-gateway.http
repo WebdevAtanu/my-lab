@@ -1,0 +1,6 @@
+@razorpay_gateway_HostAddress = http://localhost:5160
+
+GET {{razorpay_gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Razorpay Payment Integration Demo</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0f172a;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: #1e293b;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        width: 30vw;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      input {
+        width: 100%;
+        padding: 1rem;
+        margin: 1.5rem 0;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      button {
+        background: #22c55e;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #16a34a;
+      }
+
+      .status {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h3>Razorpay Payment Integration Demo</h3>
+
+      <input type="number" id="amount" placeholder="Enter amount (₹)" />
+      <button onclick="payNow()">Pay Now</button>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <script>
+      async function payNow() {
+        const amount = document.getElementById("amount").value;
+        const status = document.getElementById("status");
+
+        if (!amount || amount <= 0) {
+          status.innerText = "Enter valid amount";
+          return;
+        }
+
+        status.innerText = "Creating order...";
+
+        try {
+          // Create Order
+          const response = await fetch(
+            "https://localhost:44319/api/Payment/create-order", // Calling Dotnet Core Backend API to Create Razorpay Order
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                paymentAmount: parseInt(amount),
+              }),
+            },
+          );
+
+          if (!response.ok) {
+            status.innerText = "Order creation failed";
+            throw new Error("Order creation failed");
+          }
+
+          const order = await response.json(); // Receive Razorpay Order Object Details From Backend
+          console.log("Order Data:", order);
+
+          // Razorpay Options
+          const options = {
+            key: "rzp_test_SUyCMZlS0lFl7g", // test key
+            amount: order.amount,
+            currency: "INR",
+            name: "Demo Store",
+            description: "Test Payment",
+            order_id: order.id,
+
+            // Success Handler Callback
+            handler: async function (res) {
+              console.log("Payment Data:", res);
+
+              if (
+                !res.razorpay_payment_id ||
+                !res.razorpay_order_id ||
+                !res.razorpay_signature
+              ) {
+                status.innerText = "Missing payment data";
+                return;
+              }
+
+              status.innerText = "Verifying payment...";
+
+              // Verify Payment
+              const verifyRes = await fetch(
+                "https://localhost:44319/api/Payment/verify", // Calling Dotnet Core Backend API to Verify Razorpay Payment
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    razorpay_payment_id: res.razorpay_payment_id,
+                    razorpay_order_id: res.razorpay_order_id,
+                    razorpay_signature: res.razorpay_signature,
+                  }),
+                },
+              );
+
+              const result = await verifyRes.text();
+
+              if (verifyRes.ok) {
+                status.innerText = "Payment Successful!";
+              } else {
+                status.innerText = result;
+              }
+            },
+
+            // Handle Failure
+            modal: {
+              ondismiss: function () {
+                status.innerText = "Payment Cancelled";
+              },
+            },
+
+            prefill: {
+              name: "Atanu Mondal",
+              email: "test@email.com",
+              contact: "9999999999",
+            },
+
+            theme: {
+              color: "#22c55e",
+            },
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } catch (error) {
+          console.error(error);
+          status.innerText = "Error: " + error.message;
+        }
+      }
+    </script>
+  </body>
+</html>
