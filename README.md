@@ -4,17 +4,23 @@ A multi-project workspace for experimenting with .NET, Node.js, Prisma, webhooks
 
 ## Projects
 
-- `dotnet-forms/` - Windows Forms sample apps in C# and VB.NET.
-- `dotnet-orm/` - .NET data access demos, including ADO.NET and Dapper examples.
-- `fastify-template/` - Node.js Fastify starter template.
-- `graphql/` - GraphQL server sample in Node.js.
-- `js-decorators/` - JavaScript/TypeScript decorator examples.
-- `nest/` - NestJS application with TypeScript setup.
-- `node-event/` - Event-driven Node.js sample with controllers and services.
-- `node-ts/` - TypeScript Node.js application structure.
-- `prisma/` - Prisma schema and database access starter project.
-- `quote-extension/` - Browser extension demo with popup and content script.
-- `razorpay-gateway/` - Razorpay payment integration sample.
-- `report-kit/` - PDF reporting engine for Node.js using Puppeteer, Handlebars, and Knex.
+- `auth/` - Express and TypeScript JWT authentication example.
+- `bull-mq/` - BullMQ producer and worker example.
+- `dotnet-forms/` - C# and VB.NET Windows Forms applications.
+- `dotnet-orm/` - ADO.NET and Dapper Web API examples.
+- `elasticsearch/` - Reserved directory for Elasticsearch experiments.
+- `fastify-template/` - Fastify CRUD API with MongoDB.
+- `graphql/` - Express GraphQL server example.
+- `grpc/` - Node.js gRPC and Protocol Buffers example.
+- `js-decorators/` - JavaScript and TypeScript decorator examples.
+- `nest/` - NestJS TypeScript application.
+- `node-event/` - Event-driven Node.js example.
+- `node-ts/` - TypeScript Express and MongoDB API.
+- `prisma/` - Prisma and PostgreSQL example.
+- `quote-extension/` - Manifest V3 browser extension.
+- `razorpay-gateway/` - ASP.NET Core Razorpay integration example.
+- `report-kit/` - Node.js PDF report generator.
 - `webhooks/` - Webhook sender and receiver examples.
+- `worker-service/` - .NET worker service using Dapper and MySQL.
+- `elastic-search` - A Node.js + Express + Elasticsearch project.
 

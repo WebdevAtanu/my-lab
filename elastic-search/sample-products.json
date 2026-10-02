@@ -1,0 +1,30 @@
+[
+  {
+    "name": "iPhone 16",
+    "category": "Mobile",
+    "brand": "Apple",
+    "price": 79999,
+    "description": "Apple smartphone with a powerful processor"
+  },
+  {
+    "name": "Galaxy S25",
+    "category": "Mobile",
+    "brand": "Samsung",
+    "price": 74999,
+    "description": "Samsung flagship Android smartphone"
+  },
+  {
+    "name": "MacBook Air M4",
+    "category": "Laptop",
+    "brand": "Apple",
+    "price": 114999,
+    "description": "Lightweight laptop with Apple silicon"
+  },
+  {
+    "name": "ThinkPad E14",
+    "category": "Laptop",
+    "brand": "Lenovo",
+    "price": 64999,
+    "description": "Business laptop for developers and professionals"
+  }
+]
